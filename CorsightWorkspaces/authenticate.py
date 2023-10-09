@@ -4,8 +4,8 @@ from utils.files import write_dict_to_json_file
 
 KEYS_AND_DATA_JSON = "/home/gal/PycharmProjects/Nehedar/CorsightWorkspaces/keys_and_data.json"
 url = "https://localhost:5004/auth/login/"
-username = "Gal"
-password = "Galb9389"
+username = ""
+password = ""
 session_time = 60000
 headers = {
     "accept": "application/json",
