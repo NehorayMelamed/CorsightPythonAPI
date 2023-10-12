@@ -26,6 +26,13 @@ if os.path.exists(outpus_pois_path) is False:
     os.mkdir(outpus_pois_path)
 
 
+class CustomOutput:
+    def __init__(self, data):
+        self.data = data
+
+    def json(self):
+        return self.data
+
 def image_to_base64(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
@@ -193,7 +200,21 @@ def search_poi_in_watchlist(base64_img_face, watchlist_id, min_confidence, max_m
     }
     response = requests.post(f"{BASE_URL}/face/search", headers=HEADERS, json=data, verify=False)
     try:
-        return response.json()["data"]["matches"]
+        output_list = []
+        for item in response.json()["data"]["matches"]:
+            for face in item['faces']:
+                transformed_data = {
+                    "poi_id": item["poi_id"],
+                    "file name": item["display_name"],
+                    "crop": item["display_img"],
+                    "confidence": item["poi_confidence"],
+                    "gender": face["face_attributes"]["gender_outcome"]
+                }
+                output_list.append(transformed_data)
+        # print(output)
+        # return response.json()["data"]["matches"]
+        output = CustomOutput(output_list)
+        return output
     except Exception:
         return None
 
@@ -223,26 +244,25 @@ def get_all_pois_from_watchlist(watchlist_id):
     return pois
 
 
-
-
 if __name__ == "__main__":
     # WATCHLIST_ID = create_watchlist("Test_before_cloud")
     WATCHLIST_ID = '42a7f5b4-0848-492f-ab9a-1b904ee6666a'
 
-    one_face_path_img = "/home/gal/PycharmProjects/Nehedar/data/output/match_results/sess_2/match_results/image_100_face_1_match_0/original_full_image.png"
-    many_faces_path_img = "/home/gal/PycharmProjects/Nehedar/data/output/match_results/sess_2/match_results/image_179_face_1_match_0/original_full_image.png"
+    one_face_path_img = "/home/gal/PycharmProjects/Nehedar/data/output/match_results/sess_2/match_results/image_179_face_1_match_0/original_full_image.png"
+    # many_faces_path_img = "/home/gal/PycharmProjects/Nehedar/data/output/match_results/sess_2/match_results/image_179_face_1_match_0/original_full_image.png"
     base_64_one_face = image_to_base64(one_face_path_img)
-    base_64_many_faces = image_to_base64(many_faces_path_img)
+    # base_64_many_faces = image_to_base64(many_faces_path_img)
 
-    ###  Detect and add one poi to watchlist
-    # Get full response
+    # ###  Detect and add one poi to watchlist
+    # # Get full response
     # print(detect_face_return_full_response(base_64_many_faces))
-    # Get crops images respone
-    # print(detect_face_returns_crops(base_64_many_faces))
-
-    ### Detect and add poi to list
-    res_data = detect_and_add_all_pois_in_image_to_watchlist(base_64_one_face, watchlist_id=WATCHLIST_ID)
-
+    # # Get crops images respone
+    face_base_64 = detect_face_returns_crops(base_64_one_face)[0]
+    #
+    # ### Detect and add poi to list
+    # res_data = detect_and_add_all_pois_in_image_to_watchlist(base_64_one_face, watchlist_id=WATCHLIST_ID)
+    response = search_poi_in_watchlist(face_base_64, WATCHLIST_ID, 10, 3)
+    print(response.json())
     ### Search in watchlist
 
 
