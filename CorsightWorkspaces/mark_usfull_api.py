@@ -158,8 +158,8 @@ def detect_face(base64_img):
 
 
 if __name__ == '__main__':
-    directory_path = "/home/gal/PycharmProjects/Nehedar/CorsightWorkspaces/blue_data"
-    directory_path = "/home/gal/PycharmProjects/Nehedar/CorsightWorkspaces/grandma"
+    directory_path = "/utils/blue_data"
+    directory_path = "/utils/grandma"
     output_result = os.path.join(output_base, "match_results")
     if os.path.exists(output_result) is False:
         os.mkdir(output_result)

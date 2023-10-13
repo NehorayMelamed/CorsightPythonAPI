@@ -6,24 +6,20 @@ import requests
 from PIL import Image, ImageDraw
 from io import BytesIO
 import base64
-
-from sc_sdk.domain.api_clients.api_client import APIClient
-from sc_sdk.domain.api_clients.poi_db_client import POIDBClient, POIClient
-from sc_sdk.domain.objects.face_input import ImagePayload
-from sc_sdk.domain.objects.poi.poi_face_models import AddPOIFace
-
-from CorsightWorkspaces import PARAMETERS
+import PARAMETERS
 
 BASE_URL = "https://localhost:8080/poi_db"
+# BASE_URL = "https://host.docker.internal:8080/poi_db"
+
 HEADERS = {
     "accept": "application/json",
     "Content-Type": "application/json",
     "Authorization": f"Bearer {PARAMETERS.access_token}"
 }
-output_base = "/home/gal/PycharmProjects/Nehedar/data/output"
-outpus_pois_path = os.path.join(output_base, "pois_2")
-if os.path.exists(outpus_pois_path) is False:
-    os.mkdir(outpus_pois_path)
+# output_base = "/home/gal/PycharmProjects/Nehedar/data/output"
+# outpus_pois_path = os.path.join(output_base, "pois_2")
+# if os.path.exists(outpus_pois_path) is False:
+#     os.mkdir(outpus_pois_path)
 
 
 class CustomOutput:
@@ -257,8 +253,8 @@ if __name__ == "__main__":
     # # Get full response
     # print(detect_face_return_full_response(base_64_many_faces))
     # # Get crops images respone
-    face_base_64 = detect_face_returns_crops(base_64_one_face)[0]
-    #
+    face_base_64 = detect_face_return_full_response(base_64_one_face)
+
     # ### Detect and add poi to list
     # res_data = detect_and_add_all_pois_in_image_to_watchlist(base_64_one_face, watchlist_id=WATCHLIST_ID)
     response = search_poi_in_watchlist(face_base_64, WATCHLIST_ID, 10, 3)

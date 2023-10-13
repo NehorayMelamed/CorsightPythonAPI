@@ -1,0 +1,35 @@
+{
+    "metadata": {
+        "msg": "success"
+    },
+    "data": {
+        "user_id": "f5a3e4a8-2a84-11ec-b73a-94e6f73076b3",
+        "name": "Gal",
+        "role_id": "f5a3e3e0-2a84-11ec-b73a-94e6f73076b3",
+        "active": true,
+        "password_reset_required": false,
+        "user_contact_info": {
+            "full_name": null,
+            "email": null,
+            "phone": null
+        },
+        "create_time_utc": 1633951251.283,
+        "token": "d8e4941a-ea70-4c55-88e0-54ad2410d77d",
+        "status": "logged in",
+        "permission_names": [],
+        "role_name": "superadmin",
+        "role_data_filters": {
+            "event_filters": {
+                "camera_ids": [],
+                "age_outcomes": [],
+                "gender_outcomes": [],
+                "mask_outcomes": [],
+                "liveness_outcomes": [],
+                "matches": []
+            }
+        }
+    },
+    "expires_in": 600000.0,
+    "access_token": "d8e4941a-ea70-4c55-88e0-54ad2410d77d",
+    "token_type": "Bearer"
+}

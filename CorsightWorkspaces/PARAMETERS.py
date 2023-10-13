@@ -1,4 +1,4 @@
-from utils.files import load_json_from_file
+from files import load_json_from_file
 
 username = "Gal"
 password = "Galb9389"
