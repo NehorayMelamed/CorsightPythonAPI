@@ -144,7 +144,7 @@ def setup():
 if __name__ == '__main__':
     # args = setup()
     search_dir = "/home/gal/PycharmProjects/Nehedar/data/real_data/blue_data"
-    watchlist_name = "RED_VIDEO_TELEGRAM_final_1"
+    watchlist_name = "blue_images_for_cloud_test"
     username = "Gal"
     password = "Galb9389"
     min_confidence = 70

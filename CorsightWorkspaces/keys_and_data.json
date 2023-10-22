@@ -14,7 +14,7 @@
             "phone": null
         },
         "create_time_utc": 1633951251.283,
-        "token": "d8e4941a-ea70-4c55-88e0-54ad2410d77d",
+        "token": "948fe7af-7dad-4962-ad83-f65e00744568",
         "status": "logged in",
         "permission_names": [],
         "role_name": "superadmin",
@@ -29,7 +29,7 @@
             }
         }
     },
-    "expires_in": 600000.0,
-    "access_token": "d8e4941a-ea70-4c55-88e0-54ad2410d77d",
+    "expires_in": 99999999.0,
+    "access_token": "948fe7af-7dad-4962-ad83-f65e00744568",
     "token_type": "Bearer"
 }

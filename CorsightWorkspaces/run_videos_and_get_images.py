@@ -1,8 +1,7 @@
 import json
+import os
 import time
-
 import requests
-
 from CorsightWorkspaces import PARAMETERS
 
 BASE_URL = "localhost"
@@ -69,13 +68,24 @@ def get_camera(camera_id, token):
     return response.json()['data']
 
 
-def get_appearances(camera_id, token):
+def get_appearances( token, camera_id=None, after_id=None):
 
     url = f"https://{BASE_URL}:5003/history/"
+    if camera_id is None:
+        cam_ids = []
+    else:
+        cam_ids = [camera_id]
+    if after_id is not None:
+        payload = json.dumps({
+            "cam_ids": cam_ids,
+            "after_id": after_id
+        })
+    else:
+        payload = json.dumps({
+            "cam_ids": cam_ids
+        })
 
-    payload = json.dumps({
-        "cam_ids": [camera_id]
-    })
+
     headers = get_headers(token)
 
     response = requests.request("POST", url, headers=headers, data=payload, verify=False)
@@ -98,6 +108,19 @@ def get_headers(token):
     }
 
 
-if __name__ == '__main__':
-    crops = get_all_crops_from_video("/home/sc/share/סרטוני שבויים/449901611917784214.MP4", "video_name_example.mp4", TOKEN, "balanced")
+def running_on_videos(base_directory):
+    if os.path.exists(base_directory):
+        for video_name in os.listdir(base_directory):
+            print(video_name)
+            full_path_to_current_video = os.path.join(base_directory, video_name)
+            current_crops = get_all_crops_from_video(full_path_to_current_video, video_name, TOKEN, "balanced")
 
+
+
+if __name__ == '__main__':
+    crops = get_all_crops_from_video("/home/sc/share/Videos_from_telegram/273925376807776989.MP4", "check_corsight.mp4", TOKEN, "deep")
+    print(crops)
+    # token = PARAMETERS.access_token
+    # all_apperanaces = get_appearances(token, after_id="be07e154-c33e-41af-b069-d4ee5a488b78")
+    # base_directory = "/home/sc/share/red data naor"
+    # running_on_videos(base_directory)

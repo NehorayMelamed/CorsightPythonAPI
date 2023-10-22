@@ -14,10 +14,11 @@ HEADERS = {
     "Content-Type": "application/json",
     "Authorization": f"Bearer {PARAMETERS.access_token}"
 }
-output_base = "/home/gal/PycharmProjects/Nehedar/data/output/match_results/sess_2"
+output_base = "/home/gal/PycharmProjects/Nehedar/data/output/match_results/sess_4"
+if os.path.exists(output_base) is False:
+    os.mkdir(output_base)
 
-
-def search_img_in_videos(b64_img, token=PARAMETERS.access_token, min_confidence=10, max_matches=10):
+def search_img_in_videos(b64_img, token=PARAMETERS.access_token, min_confidence=60, max_matches=10):
     matched_appearances = []
 
     status_code, matches = search_img_in_app_db(b64_img=b64_img, token=token, min_confidence=min_confidence, max_matches=max_matches)
@@ -158,16 +159,16 @@ def detect_face(base64_img):
 
 
 if __name__ == '__main__':
-    directory_path = "/utils/blue_data"
-    directory_path = "/utils/grandma"
+    # directory_path = "/utils/blue_data"
+    directory_path = "/home/gal/PycharmProjects/Nehedar/data/said_khatib"
     output_result = os.path.join(output_base, "match_results")
     if os.path.exists(output_result) is False:
         os.mkdir(output_result)
     all_files = os.listdir(directory_path)
 
-    sorted_files = sorted([f for f in all_files if f.startswith("image_")],
-                          key=lambda x: int(x.split('_')[1].split('.')[0]))
+    sorted_files = all_files
     for image in sorted_files:
+        print("!!!!!! Running on files !!!!!!!!")
         base64_image = image_to_base64(os.path.join(directory_path, image))
         faces_detections = detect_face(base64_image)
         for face_count, detected_face_in_image in enumerate(faces_detections):

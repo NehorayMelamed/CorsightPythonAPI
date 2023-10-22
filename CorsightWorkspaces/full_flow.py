@@ -96,7 +96,7 @@ def detect_face_return_full_response(base64_img):
     return response.status_code, response.json()
 
 
-def detect_face_returns_crops(base64_img):
+def detect_faces_returns_crops(base64_img):
     status, response = detect_face_return_full_response(base64_img)
     if status != 200:
         print(f"Error detecting faces: {response.text}")
@@ -105,23 +105,23 @@ def detect_face_returns_crops(base64_img):
     return detected_faces_base64_list
 
 
-def detect_and_add_all_pois_in_image_to_watchlist(base64_img, watchlist_id, file_name="file_name"):
-    detected_faces_lst = detect_face_returns_crops(base64_img)
+def detect_and_add_all_pois_in_image_to_watchlist(base64_img, watchlist_id, poi_identifier_display_name="poi_identifier_display_name"):
+    detected_faces_lst = detect_faces_returns_crops(base64_img)
     if detected_faces_lst:
         for face_base64 in detected_faces_lst:
             data = {
                 "pois": [
                     {
-                        "display_name": f"{file_name}",
+                        "display_name": f"{poi_identifier_display_name}",
                         "display_img": face_base64,
                         "poi_notes": {
-                            "file_name": file_name
+                            "file_name": poi_identifier_display_name
                         },
                         "poi_watchlists": [
                             watchlist_id
                         ],
                         "face": {
-                            "force": False,
+                            "force": True,
                             "save_crop": True,
                             "image_payload": {
                                 "img": face_base64,
@@ -169,7 +169,7 @@ def build_watchlist_and_add_pois_for_directory_of_images(directory_path, watchli
             base64_img = image_to_base64(image_path)
 
             # Detect faces in the image
-            detected_faces_base64 = detect_face_returns_crops(base64_img)
+            detected_faces_base64 = detect_faces_returns_crops(base64_img)
             for face_base64 in detected_faces_base64:
                 poi_id = detect_and_add_all_pois_in_image_to_watchlist(face_base64, watchlist_id) #ToDo add file name
                 if not poi_id:
@@ -241,25 +241,27 @@ def get_all_pois_from_watchlist(watchlist_id):
 
 
 if __name__ == "__main__":
-    # WATCHLIST_ID = create_watchlist("Test_before_cloud")
-    WATCHLIST_ID = '42a7f5b4-0848-492f-ab9a-1b904ee6666a'
+    WATCHLIST_ID = create_watchlist("Test_before_cloud_2")
+    # WATCHLIST_ID = '42a7f5b4-0848-492f-ab9a-1b904ee6666a'
+    #
+    one_face_path_img = "/home/gal/PycharmProjects/Nehedar/data/blue/telegram/כחול-ידני/photo1696803996.jpeg"
+    many_faces_path_img = "/home/gal/Pictures/Screenshot from 2023-10-16 22-52-03.png"
+    # base_64_one_face = image_to_base64(one_face_path_img)
+    base_64_many_faces = image_to_base64(many_faces_path_img)
 
-    one_face_path_img = "/home/gal/PycharmProjects/Nehedar/data/output/match_results/sess_2/match_results/image_179_face_1_match_0/original_full_image.png"
-    # many_faces_path_img = "/home/gal/PycharmProjects/Nehedar/data/output/match_results/sess_2/match_results/image_179_face_1_match_0/original_full_image.png"
-    base_64_one_face = image_to_base64(one_face_path_img)
-    # base_64_many_faces = image_to_base64(many_faces_path_img)
-
-    # ###  Detect and add one poi to watchlist
+    ###  Detect and add one poi to watchlist
     # # Get full response
-    # print(detect_face_return_full_response(base_64_many_faces))
+    # print(detect_face_return_full_response(base_64_one_face))
     # # Get crops images respone
-    face_base_64 = detect_face_return_full_response(base_64_one_face)
+    # faces_base_64 = detect_faces_returns_crops(base_64_many_faces)
 
     # ### Detect and add poi to list
-    # res_data = detect_and_add_all_pois_in_image_to_watchlist(base_64_one_face, watchlist_id=WATCHLIST_ID)
-    response = search_poi_in_watchlist(face_base_64, WATCHLIST_ID, 10, 3)
-    print(response.json())
+    res_data = detect_and_add_all_pois_in_image_to_watchlist(base_64_many_faces, watchlist_id=WATCHLIST_ID)
+    # response = search_poi_in_watchlist(base_64_many_faces, WATCHLIST_ID, 0, 3)
+    # print(response.json())
     ### Search in watchlist
+
+
 
 
 
