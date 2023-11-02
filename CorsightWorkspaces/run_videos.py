@@ -45,4 +45,4 @@ def setup():
 if __name__ == '__main__':
     # args = setup()
     APIClient.user_session_token = PARAMETERS.access_token
-    run_videos("/media/gal/T7 Shield/red data naor")
+    run_videos("/home/gal/PycharmProjects/Nehedar/CorsightWorkspaces/ronen_data/videos")
